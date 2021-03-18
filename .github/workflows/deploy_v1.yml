@@ -1,4 +1,4 @@
-name: Deploiement SmartHotel360
+name: Deploiement SmartHotel360 IaC Bicep
 
 on:
   push:
@@ -16,7 +16,11 @@ jobs:
       - name: recuperation du repository
         uses: actions/checkout@v2
 
+      - name: Login Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: deploiemenent IaC
         run : |
           az deployment sub create -f ./bicep/main.bicep -l westeurope
-        
