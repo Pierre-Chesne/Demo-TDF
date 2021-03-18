@@ -3,8 +3,15 @@ name: Deploiement SmartHotel360 IaC Bicep
 on: workflow_dispatch
 
 env:
-  rgName: rg-test-tdf
-  location: westeurope
+  RG_NAME: rg-test-tdf
+  LOCATION: westeurope
+  SERVER_NAME_DB: smh360mysql40406cc
+  DB_NAME: hotel_coupon
+  USER_NAME: sqladmin
+  PASSWORD: P2ssw0rd@123
+
+
+
 
 jobs:
   Check-IaC:
@@ -30,7 +37,7 @@ jobs:
       
       - name: WhatIf
         run: |
-          az deployment group what-if --resource-group 'rg-test-tdf' --template-file ./bicep/main.json --parameters 'serverNameDB=smh360mysql40406cc' 'dbName=hotel_coupon' 'userName=sqladmin' 'Password=P2ssw0rd@123' 
+          az deployment group what-if --resource-group 'rg-test-tdf' --template-file ./bicep/main.json --parameters 'serverNameDB=${{ env.SERVER_NAME_DB }}' 'dbName=${{ env.DB_NAME }}' 'userName=${{ env.USER_NAME }}' 'Password=${{ env.PASSWORD }}' 
 
    
 
