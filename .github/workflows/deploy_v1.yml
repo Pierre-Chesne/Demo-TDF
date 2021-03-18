@@ -13,7 +13,7 @@ env:
   SITE_NAME: smh360webd4041cc
 
 jobs:
-  Check-IaC:
+  Build-IaC:
     runs-on: ubuntu-20.04
 
     steps:
@@ -38,9 +38,8 @@ jobs:
         run: |
           az deployment group what-if --resource-group 'rg-test-tdf' --template-file ./bicep/main.json --parameters 'serverNameDB=${{ env.SERVER_NAME_DB }}' 'dbName=${{ env.DB_NAME }}' 'userName=${{ env.USER_NAME }}' 'Password=${{ env.PASSWORD }}' 'planName=${{ env.PLAN_NAME }}' 'siteName=${{ env.SITE_NAME }}'
 
-   
-
-      
-
-
-
+      - mane: Artifacts json
+        uses: actions/upload-artifact@v1
+        with:
+          name: arm_template
+          path: ./bicep/main.json

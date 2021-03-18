@@ -11,5 +11,4 @@ resource AppPlan 'Microsoft.Web/serverfarms@2020-06-01' = {
     capacity: 1
   }
 }
-
 output AppPlanID string = AppPlan.id
