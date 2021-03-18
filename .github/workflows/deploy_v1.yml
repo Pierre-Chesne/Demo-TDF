@@ -17,7 +17,6 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-
       - name: Login Azure
         uses: azure/login@v1
         with:
@@ -43,3 +42,27 @@ jobs:
         with:
           name: arm_template
           path: ./bicep/main.json
+  
+  Ckeck-IaC:
+    needs: Build-IaC
+    runs-on: ubuntu-20.04
+
+    steps:
+
+      - name: Creation dossier artifact
+        run: |
+          mkdir TemplateJSON
+
+
+      - name: Recuperation de artefact
+        uses: actions/download-artifact@v2
+        with:
+          name: arm_template
+          path: TemplateJSON
+
+
+
+
+
+  
+    
