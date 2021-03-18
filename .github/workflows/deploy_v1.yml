@@ -7,7 +7,7 @@ env:
   location: westeurope
 
 jobs:
-  IaC:
+  Check-IaC:
     runs-on: ubuntu-20.04
 
     steps:
@@ -27,10 +27,12 @@ jobs:
       - name: build json
         run: |
           az bicep build --files ./bicep/main.bicep
-
-      - name: check json
+      
+      - name: WhatIf
         run: |
-          ls ./bicep -lisa     
+          az deployment group what-if --resource-group 'rg-test-tdf' --template-file ./bicep/main.json --parameters 'serverNameDB=smh360mysql40406cc' 'dbName=hotel_coupon' 'userName=sqladmin' 'Password=P2ssw0rd@123' 
+
+   
 
       
 
