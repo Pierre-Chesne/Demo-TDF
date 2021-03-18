@@ -61,6 +61,8 @@ jobs:
   Deploy-IAC:
     needs: Ckeck-IaC
     runs-on: ubuntu-20.04
+    environment:
+      name: Test-Dev
 
     steps:
       - name: Creation dossier artifact

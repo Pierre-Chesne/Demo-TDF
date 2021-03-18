@@ -6,7 +6,6 @@
    secure: true   
  }
  param planName string
- //param appPlanId string
  param siteName string
  
  module deployServerDB 'mysql.bicep' = {
