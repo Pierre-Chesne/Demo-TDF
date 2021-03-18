@@ -82,7 +82,11 @@ jobs:
 
       - name: Deploiement du template
         run: |
-          az deployment group create --resource-group 'rg-test-tdf' --template-file ./TemplateJSON/main.json --parameters 'serverNameDB=${{ env.SERVER_NAME_DB }}' 'dbName=${{ env.DB_NAME }}' 'userName=${{ env.USER_NAME }}' 'Password=${{ env.PASSWORD }}' 'planName=${{ env.PLAN_NAME }}' 'siteName=${{ env.SITE_NAME }}'
+          az deployment group create --resource-group ${{ env.RG_NAME}} --template-file ./TemplateJSON/main.json --parameters 'serverNameDB=${{ env.SERVER_NAME_DB }}' 'dbName=${{ env.DB_NAME }}' 'userName=${{ env.USER_NAME }}' 'Password=${{ env.PASSWORD }}' 'planName=${{ env.PLAN_NAME }}' 'siteName=${{ env.SITE_NAME }}'
+
+      - name: network rule (c'est moche)
+        run: |
+          az mysql server firewall-rule create --resource-group ${{ env.RG_NAME}} --server ${{ env.SERVER_NAME_DB }} --name AllowAppService --start-ip-address 0.0.0.0 --end-ip-address 255.255.255.255       
 
 
 
