@@ -10,6 +10,11 @@ jobs:
         - name: Repuperation du repo
           uses: actions/checkout@v2
 
+      - name: Perform Scan CredScan & Java
+        uses: ShiftLeftSecurity/scan-action@master
+        with:
+          type: "credscan,java"
+
         - name: Setup Java
           uses: actions/setup-java@v1
           with:
@@ -25,4 +30,5 @@ jobs:
           uses: actions/upload-artifact@v2
           with:
             name: Package-WAR
-            path: warfile               
+            path: warfile
+
