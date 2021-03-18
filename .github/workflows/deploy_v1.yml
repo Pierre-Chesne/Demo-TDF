@@ -1,0 +1,14 @@
+name: Deploiement SmartHotel360
+
+on: workflow_dispatch
+
+
+jobs:
+  IaC:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: check version AZ
+        run: |
+          az version
+        
