@@ -113,7 +113,6 @@ jobs:
         with:
           name: Package-WAR
           path: warfile
-
   Deploy-App:
     runs-on: ubuntu-20.04
     needs:
