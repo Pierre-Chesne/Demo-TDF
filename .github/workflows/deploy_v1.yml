@@ -32,10 +32,6 @@ jobs:
       - name: build json
         run: |
           az bicep build --files ./bicep/main.bicep
-      
-      - name: WhatIf json
-        run: |
-          az deployment group what-if --resource-group 'rg-test-tdf' --template-file ./bicep/main.json --parameters 'serverNameDB=${{ env.SERVER_NAME_DB }}' 'dbName=${{ env.DB_NAME }}' 'userName=${{ env.USER_NAME }}' 'Password=${{ env.PASSWORD }}' 'planName=${{ env.PLAN_NAME }}' 'siteName=${{ env.SITE_NAME }}'
 
       - name: Artifacts json
         uses: actions/upload-artifact@v1
@@ -48,7 +44,6 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-
       - name: Creation dossier artifact
         run: |
           mkdir TemplateJSON
@@ -59,9 +54,9 @@ jobs:
           name: arm_template
           path: TemplateJSON
 
-      - name: test artifact
+      - name: WhatIf json
         run: |
-          ls -lisa ./TemplateJSON
+          az deployment group what-if --resource-group 'rg-test-tdf' --template-file ./TemplateJSON/main.json --parameters 'serverNameDB=${{ env.SERVER_NAME_DB }}' 'dbName=${{ env.DB_NAME }}' 'userName=${{ env.USER_NAME }}' 'Password=${{ env.PASSWORD }}' 'planName=${{ env.PLAN_NAME }}' 'siteName=${{ env.SITE_NAME }}'
 
 
 
