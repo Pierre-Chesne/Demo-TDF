@@ -17,15 +17,6 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-      - name: Login Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Creation du RG
-        run: |
-          az group create --name ${{ env.RG_NAME }} --location ${{ env.LOCATION }}    
-
       - name: recuperation du repository
         uses: actions/checkout@v2
 
@@ -53,6 +44,15 @@ jobs:
         with:
           name: arm_template
           path: TemplateJSON
+
+      - name: Login Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Creation du RG
+        run: |
+          az group create --name ${{ env.RG_NAME }} --location ${{ env.LOCATION }}   
 
       - name: WhatIf json
         run: |
