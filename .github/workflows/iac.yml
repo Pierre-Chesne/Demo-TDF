@@ -1,4 +1,4 @@
-name: Deploiement SmartHotel360 avec IaC Bicep
+name: IaC Bicep SmartHotel360
 
 on: workflow_dispatch
 

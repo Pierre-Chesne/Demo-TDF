@@ -1,8 +1,8 @@
-name: Application SmartHotel360
+name: Deploiement SmartHotel360
 
 on: workflow_dispatch
 
-
+env:
   RG_NAME: rg-test-tdf
   LOCATION: westeurope
   SERVER_NAME_DB: smh360mysql40406cc
@@ -13,6 +13,23 @@ on: workflow_dispatch
   SITE_NAME: smh360webd4041cc
 
 jobs:
+  Build-IaC:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: recuperation du repository
+        uses: actions/checkout@v2
+
+      - name: build json
+        run: |
+          az bicep build --files ./bicep/main.bicep
+
+      - name: Artifacts json
+        uses: actions/upload-artifact@v1
+        with:
+          name: arm_template
+          path: ./bicep/main.json
+          
   Build-App:
     runs-on: ubuntu-20.04
     steps:
@@ -43,32 +60,3 @@ jobs:
         with:
           name: Package-WAR
           path: warfile
-
-  Deploy-App:
-    runs-on: ubuntu-20.04
-    needs: Build-App
-    steps:
-
-      - name: Creation dossier artifact
-        run: |
-          mkdir warfile
-
-      - name: Recuperation des artefacts
-        uses: actions/download-artifact@v2
-        with:
-          name: Package-WAR
-          path: warfile
-
-      - name: Azure Login
-        uses: Azure/login@v1
-        with:    
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Deploiement de l'application JAVA
-        uses: azure/webapps-deploy@v2
-        id: deploy-to-azure
-        with:
-          app-name: ${{ env.SITE_NAME }}
-          package: ./warfile/ROOT.war 
-         
-            
