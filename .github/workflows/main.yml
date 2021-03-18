@@ -82,7 +82,22 @@ jobs:
 
       - name: network rule (c'est moche)
         run: |
-          az mysql server firewall-rule create --resource-group ${{ env.RG_NAME}} --server ${{ env.SERVER_NAME_DB }} --name AllowAppService --start-ip-address 0.0.0.0 --end-ip-address 255.255.255.255     
+          az mysql server firewall-rule create --resource-group ${{ env.RG_NAME}} --server ${{ env.SERVER_NAME_DB }} --name AllowAppService --start-ip-address 0.0.0.0 --end-ip-address 255.255.255.255
+
+      - name: Slack Notification du déploiement
+        uses: tokorom/action-slack-incoming-webhook@main
+        env:
+          INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          text: Action GitHub -> "repo demo-tdf " -> Approuve le deploiement
+          attachments: |
+            [
+              {
+                "color": "good",
+                "author_name": "${{ github.actor }}",
+                "author_icon": "${{ github.event.sender.avatar_url }}"
+              }
+            ]      
   Build-App:
     runs-on: ubuntu-20.04
     steps:
