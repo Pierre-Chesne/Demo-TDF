@@ -1,6 +1,6 @@
 param planName string
 
-resource appPlan 'Microsoft.Web/serverfarms@2020-06-01' = {
+resource AppPlan 'Microsoft.Web/serverfarms@2020-06-01' = {
   name: planName
   location: resourceGroup().location
   sku:{
@@ -12,4 +12,4 @@ resource appPlan 'Microsoft.Web/serverfarms@2020-06-01' = {
   }
 }
 
-output AppPlanID string = appPlan.id
+output AppPlanID string = AppPlan.id

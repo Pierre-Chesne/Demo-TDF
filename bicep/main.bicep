@@ -9,6 +9,7 @@
  param appPlanId string
  param siteName string
  
+ 
  module deployServerDB 'mysql.bicep' = {
   name: 'deployServerDB'
   params:{
