@@ -26,7 +26,7 @@ jobs:
 
       - name: Creation du RG
         run: |
-          az group create --name ${{ env.rgName }} --location ${{ env.location }}    
+          az group create --name ${{ env.RG_NAME }} --location ${{ env.LOCATION }}    
 
       - name: recuperation du repository
         uses: actions/checkout@v2
