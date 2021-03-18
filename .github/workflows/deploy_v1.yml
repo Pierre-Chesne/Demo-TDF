@@ -30,7 +30,7 @@ jobs:
 
       - name: check json
         run: |
-          ls -lisa     
+          ls /bicep -lisa     
 
       
 
