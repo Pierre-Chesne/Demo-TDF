@@ -16,7 +16,7 @@ jobs:
       - name: recuperation du repository
         uses: actions/checkout@v2
 
-      - deploiemenent IaC
+      - name: deploiemenent IaC
         run : |
           az deployment sub create -f ./bicep/main.bicep -l westeurope
         
