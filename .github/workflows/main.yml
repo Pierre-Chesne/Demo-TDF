@@ -56,7 +56,35 @@ jobs:
       - name: WhatIf json
         run: |
           az deployment group what-if --resource-group 'rg-test-tdf' --template-file ./TemplateJSON/main.json --parameters 'serverNameDB=${{ env.SERVER_NAME_DB }}' 'dbName=${{ env.DB_NAME }}' 'userName=${{ env.USER_NAME }}' 'Password=${{ env.PASSWORD }}' 'planName=${{ env.PLAN_NAME }}' 'siteName=${{ env.SITE_NAME }}'
+  Deploy-IAC:
+    needs: Ckeck-IaC
+    runs-on: ubuntu-20.04
+    environment:
+      name: Test-Dev
 
+    steps:
+      - name: Creation dossier artifact
+        run: |
+          mkdir TemplateJSON
+
+      - name: Recuperation de artefact
+        uses: actions/download-artifact@v2
+        with:
+          name: arm_template
+          path: TemplateJSON
+
+      - name: Login Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploiement du template
+        run: |
+          az deployment group create --resource-group ${{ env.RG_NAME}} --template-file ./TemplateJSON/main.json --parameters 'serverNameDB=${{ env.SERVER_NAME_DB }}' 'dbName=${{ env.DB_NAME }}' 'userName=${{ env.USER_NAME }}' 'Password=${{ env.PASSWORD }}' 'planName=${{ env.PLAN_NAME }}' 'siteName=${{ env.SITE_NAME }}'
+
+      - name: network rule (c'est moche)
+        run: |
+          az mysql server firewall-rule create --resource-group ${{ env.RG_NAME}} --server ${{ env.SERVER_NAME_DB }} --name AllowAppService --start-ip-address 0.0.0.0 --end-ip-address 255.255.255.255     
   Build-App:
     runs-on: ubuntu-20.04
     steps:
