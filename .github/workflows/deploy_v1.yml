@@ -9,6 +9,8 @@ env:
   DB_NAME: hotel_coupon
   USER_NAME: sqladmin
   PASSWORD: P2ssw0rd@123
+  PLAN_NAME: smh360plan
+
 
 
 
@@ -37,7 +39,7 @@ jobs:
       
       - name: WhatIf
         run: |
-          az deployment group what-if --resource-group 'rg-test-tdf' --template-file ./bicep/main.json --parameters 'serverNameDB=${{ env.SERVER_NAME_DB }}' 'dbName=${{ env.DB_NAME }}' 'userName=${{ env.USER_NAME }}' 'Password=${{ env.PASSWORD }}' 
+          az deployment group what-if --resource-group 'rg-test-tdf' --template-file ./bicep/main.json --parameters 'serverNameDB=${{ env.SERVER_NAME_DB }}' 'dbName=${{ env.DB_NAME }}' 'userName=${{ env.USER_NAME }}' 'Password=${{ env.PASSWORD }}' 'planName=${{ env.PLAN_NAME }}'
 
    
 

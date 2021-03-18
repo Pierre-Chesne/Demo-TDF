@@ -5,6 +5,7 @@
  param Password string {
    secure: true   
  }
+ param planName string
  
  module deployServerDB 'mysql.bicep' = {
   name: 'deployServerDB'
@@ -14,5 +15,12 @@
     userName: userName
     Password: Password  
     
+  }
+}
+
+module deployAppPlan 'appPlan.bicep' = {
+  name: 'deployAppPlan'
+  params:{
+    planName :planName
   }
 }
