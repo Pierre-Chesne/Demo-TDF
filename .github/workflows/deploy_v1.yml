@@ -2,8 +2,9 @@ name: Deploiement SmartHotel360 IaC Bicep
 
 on: workflow_dispatch
 
-rgName: rg-test-tdf
-location: westeurope
+env:
+  rgName: rg-test-tdf
+  location: westeurope
 
 jobs:
   IaC:
