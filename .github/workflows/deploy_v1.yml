@@ -2,7 +2,6 @@ name: Deploiement SmartHotel360
 
 on: workflow_dispatch
 
-
 jobs:
   IaC:
     runs-on: ubuntu-20.04
@@ -11,4 +10,11 @@ jobs:
       - name: check Bicep
         run: |
           az bicep -h
+
+      - name: recuperation du repository
+        uses: actions/checkout@v2
+
+      - deploiemenent IaC
+        run : |
+          az deployment sub create -f ./bicep/main.bicep -l westeurope
         
