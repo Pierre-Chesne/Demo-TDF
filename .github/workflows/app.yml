@@ -1,4 +1,4 @@
-name: Depmoiement Application
+name: Deploiement Application
 
 on: workflow_dispatch
 
@@ -33,3 +33,32 @@ jobs:
         with:
           name: Package-WAR
           path: warfile
+
+  Deploy-App:
+    runs-on: ubuntu-20.04
+    needs: Build-App
+    steps:
+
+      - name: Creation dossier artifact
+        run: |
+          mkdir warfile
+
+      - name: Recuperation des artefacts
+        uses: actions/download-artifact@v2
+        with:
+          name: Package-WAR
+          path: warfile
+
+      - name: Azure Login
+        uses: Azure/login@v1
+        with:    
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploiement de l'application JAVA
+        uses: azure/webapps-deploy@v2
+        id: deploy-to-azure
+        with:
+          app-name: smh360webd4041cc
+          package: ./warfile/ROOT.war 
+         
+            
