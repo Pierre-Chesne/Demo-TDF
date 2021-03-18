@@ -53,12 +53,15 @@ jobs:
         run: |
           mkdir TemplateJSON
 
-
       - name: Recuperation de artefact
         uses: actions/download-artifact@v2
         with:
           name: arm_template
           path: TemplateJSON
+
+      - name: test artifact
+        run: |
+          ls -lisa ./TemplateJSON
 
 
 
