@@ -10,10 +10,10 @@ jobs:
         - name: Repuperation du repo
           uses: actions/checkout@v2
 
-      - name: Perform Scan CredScan & Java
-        uses: ShiftLeftSecurity/scan-action@master
-        with:
-          type: "credscan,java"
+        - name: Perform Scan CredScan & Java
+          uses: ShiftLeftSecurity/scan-action@master
+          with:
+            type: "credscan,java"
 
         - name: Setup Java
           uses: actions/setup-java@v1
