@@ -1,7 +1,7 @@
 targetScope =  'subscription'
 
 resource rg 'Microsoft.Resources/resourceGroups@2020-06-01' = {
- name: 'rg-test-bicep'
+ name: 'RG-Demo-GH-Bicep'
  location: deployment().location  
 }
 
