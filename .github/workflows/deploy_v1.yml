@@ -1,26 +1,37 @@
 name: Deploiement SmartHotel360 IaC Bicep
 
-on:
-  push:
-    branches: [main]
+on: workflow_dispatch
+
+rgName: rg-test-tdf
+location: westeurope
 
 jobs:
   IaC:
     runs-on: ubuntu-20.04
 
     steps:
-      - name: check Bicep
-        run: |
-          az bicep -h
-
-      - name: recuperation du repository
-        uses: actions/checkout@v2
 
       - name: Login Azure
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: deploiemenent IaC
-        run : |
-          az deployment sub create -f ./bicep/main.bicep -l westeurope
+      - name: Creation du RG
+        run: |
+          az group create --name ${{ env.rgName }} --location ${{ env.location }}    
+
+      - name: recuperation du repository
+        uses: actions/checkout@v2
+
+      - name: build json
+        run: |
+          az bicep build --files ./bicep/main.bicep
+
+      - name: check json
+        run: |
+          ls -lisa     
+
+      
+
+
+

@@ -1,0 +1,112 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "serverNameDB": {
+      "type": "string"
+    },
+    "dbName": {
+      "type": "string"
+    },
+    "userName": {
+      "type": "string"
+    },
+    "Password": {
+      "type": "secureString"
+    }
+  },
+  "functions": [],
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "name": "deployServerDB",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "serverNameDB": {
+            "value": "[parameters('serverNameDB')]"
+          },
+          "dbName": {
+            "value": "[parameters('dbName')]"
+          },
+          "userName": {
+            "value": "[parameters('userName')]"
+          },
+          "Password": {
+            "value": "[parameters('Password')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {
+            "serverNameDB": {
+              "type": "string"
+            },
+            "dbName": {
+              "type": "string"
+            },
+            "userName": {
+              "type": "string"
+            },
+            "Password": {
+              "type": "secureString"
+            }
+          },
+          "functions": [],
+          "resources": [
+            {
+              "type": "Microsoft.DBForMySQL/servers",
+              "apiVersion": "2017-12-01",
+              "name": "[parameters('serverNameDB')]",
+              "location": "[resourceGroup().location]",
+              "sku": {
+                "name": "B_Gen5_1",
+                "tier": "Basic",
+                "family": "Gen5",
+                "capacity": 1
+              },
+              "properties": {
+                "version": "5.7",
+                "administratorLogin": "[parameters('userName')]",
+                "administratorLoginPassword": "[parameters('Password')]",
+                "createMode": "Default",
+                "sslEnforcement": "Disabled",
+                "publicNetworkAccess": "Enabled",
+                "storageProfile": {
+                  "backupRetentionDays": 7,
+                  "geoRedundantBackup": "Disabled",
+                  "storageAutogrow": "Disabled",
+                  "storageMB": 5120
+                }
+              }
+            },
+            {
+              "type": "Microsoft.DBForMySQL/servers/databases",
+              "apiVersion": "2017-12-01",
+              "name": "[format('{0}/{1}', parameters('serverNameDB'), parameters('dbName'))]",
+              "properties": {
+                "charset": "utf8",
+                "collation": "utf8_general_ci"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.DBForMySQL/servers', parameters('serverNameDB'))]"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.3.1.62928",
+      "templateHash": "3479553808216449583"
+    }
+  }
+}

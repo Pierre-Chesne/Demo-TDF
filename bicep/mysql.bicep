@@ -30,10 +30,7 @@ resource databaseForMySqlName 'Microsoft.DBforMySQL/servers@2017-12-01' = {
   }    
 }
 resource database 'Microsoft.DBForMySQL/servers/databases@2017-12-01' = {
-  name: '${serverNameDB}/${dbName}'
-  dependsOn:[
-     databaseForMySqlName  
-  ]
+  name: '${databaseForMySqlName.name}/${dbName}'
   properties:{
      charset: 'utf8'
      collation: 'utf8_general_ci'
