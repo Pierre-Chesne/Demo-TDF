@@ -58,9 +58,26 @@ jobs:
         run: |
           az deployment group what-if --resource-group 'rg-test-tdf' --template-file ./TemplateJSON/main.json --parameters 'serverNameDB=${{ env.SERVER_NAME_DB }}' 'dbName=${{ env.DB_NAME }}' 'userName=${{ env.USER_NAME }}' 'Password=${{ env.PASSWORD }}' 'planName=${{ env.PLAN_NAME }}' 'siteName=${{ env.SITE_NAME }}'
 
+  Deploy-IAC:
+    needs: Ckeck-IaC
+    runs-on: ubuntu-20.04
 
+    steps:
+      - name: Creation dossier artifact
+        run: |
+          mkdir TemplateJSON
 
+      - name: Recuperation de artefact
+        uses: actions/download-artifact@v2
+        with:
+          name: arm_template
+          path: TemplateJSON
 
+      - name: Login Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-  
-    
+      - name: Deploiement du template
+        run: |
+          az deployment group --resource-group 'rg-test-tdf' --template-file ./TemplateJSON/main.json --parameters 'serverNameDB=${{ env.SERVER_NAME_DB }}' 'dbName=${{ env.DB_NAME }}' 'userName=${{ env.USER_NAME }}' 'Password=${{ env.PASSWORD }}' 'planName=${{ env.PLAN_NAME }}' 'siteName=${{ env.SITE_NAME }}'
