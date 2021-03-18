@@ -2,7 +2,7 @@ name: Application SmartHotel360
 
 on: workflow_dispatch
 
-
+env:
   RG_NAME: rg-test-tdf
   LOCATION: westeurope
   SERVER_NAME_DB: smh360mysql40406cc
