@@ -59,8 +59,6 @@ jobs:
   Deploy-IAC:
     needs: Ckeck-IaC
     runs-on: ubuntu-20.04
-    environment:
-      name: Test-Dev
 
     steps:
       - name: Creation dossier artifact
@@ -115,3 +113,34 @@ jobs:
         with:
           name: Package-WAR
           path: warfile
+
+  Deploy-App:
+    runs-on: ubuntu-20.04
+    needs:
+      - Build-App
+      - Deploy-IAC
+    environment:
+      name: Test-Dev
+    steps:
+
+      - name: Creation dossier artifact
+        run: |
+          mkdir warfile
+
+      - name: Recuperation des artefacts
+        uses: actions/download-artifact@v2
+        with:
+          name: Package-WAR
+          path: warfile
+
+      - name: Azure Login
+        uses: Azure/login@v1
+        with:    
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploiement de l'application JAVA
+        uses: azure/webapps-deploy@v2
+        id: deploy-to-azure
+        with:
+          app-name: ${{ env.SITE_NAME }}
+          package: ./warfile/ROOT.war 
