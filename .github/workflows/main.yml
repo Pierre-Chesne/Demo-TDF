@@ -3,6 +3,7 @@ name: Deploiement SmartHotel360
 on: workflow_dispatch
 
 env:
+# c'est une demonstration -> mettre ces variables dans le service "Secrets" de GitHub ex: ${{ secrets.RG_NAME}}  
   RG_NAME: rg-test-tdf
   LOCATION: westeurope
   SERVER_NAME_DB: smh360mysql40406cc
