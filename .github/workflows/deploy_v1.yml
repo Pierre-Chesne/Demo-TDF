@@ -10,10 +10,7 @@ env:
   USER_NAME: sqladmin
   PASSWORD: P2ssw0rd@123
   PLAN_NAME: smh360plan
-
-
-
-
+  SITE_NAME: smh360webd4041cc
 
 jobs:
   Check-IaC:
@@ -39,7 +36,7 @@ jobs:
       
       - name: WhatIf
         run: |
-          az deployment group what-if --resource-group 'rg-test-tdf' --template-file ./bicep/main.json --parameters 'serverNameDB=${{ env.SERVER_NAME_DB }}' 'dbName=${{ env.DB_NAME }}' 'userName=${{ env.USER_NAME }}' 'Password=${{ env.PASSWORD }}' 'planName=${{ env.PLAN_NAME }}'
+          az deployment group what-if --resource-group 'rg-test-tdf' --template-file ./bicep/main.json --parameters 'serverNameDB=${{ env.SERVER_NAME_DB }}' 'dbName=${{ env.DB_NAME }}' 'userName=${{ env.USER_NAME }}' 'Password=${{ env.PASSWORD }}' 'planName=${{ env.PLAN_NAME }}' 'siteName=${{ env.SITE_NAME }}'
 
    
 
